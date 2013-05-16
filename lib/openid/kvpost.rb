@@ -29,6 +29,8 @@ module OpenID
 
   class Message
     def self.from_http_response(response, server_url)
+      Rails.logger.warn("\n\n response body\n\n")
+      Rails.logger.warn("\n\n #{response} \n\n")
       msg = self.from_kvform(response.body)
       case response.code.to_i
       when 200
@@ -49,6 +51,9 @@ module OpenID
   # a response in KV Form
   def self.make_kv_post(request_message, server_url)
     begin
+      Rails.logger.warn("\n\n server_url #{server_url}")
+      Rails.logger.warn("\n\n query params #{request_message.to_url_encoded}")
+      Rails.logger.warn("\n\n query params #{request_message}")
       http_response = self.fetch(server_url, request_message.to_url_encoded)
     rescue Exception
       raise KVPostNetworkError.new("Unable to contact OpenID server: #{$!.to_s}")
