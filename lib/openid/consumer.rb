@@ -286,6 +286,7 @@ module OpenID
       rescue NameError
         meth = method(:complete_invalid)
       end
+      Rails.logger.warn("Message: #{message} \n Mode: #{mode} \n current_url: #{current_url}")
       response = meth.call(message, current_url)
       cleanup_last_requested_endpoint
       if [SUCCESS, CANCEL].member?(response.status)
